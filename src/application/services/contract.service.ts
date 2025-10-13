@@ -44,7 +44,7 @@ export class ContractService {
                     const q = 1;
                     const itemSubtotal =+(price * q ).toFixed(2);
                     subtotal += itemSubtotal;
-                    console.log(`el precio del servicio ${sid} es ${price}`)
+                    // console.log(`el precio del servicio ${sid} es ${price}`)
                     items.push({
                          id: crypto.randomUUID(),
                          serviceId: sid,
@@ -77,6 +77,8 @@ export class ContractService {
                };
 
                //realizar los inserts persitentes
+               console.log('before Suggestions')
+               console.log(contractEntity)
                await this.contracts.create(contractEntity, conn)
 
                // validar posibles descuentos y suggestionID
@@ -108,6 +110,7 @@ export class ContractService {
      async confirmSuggestion(contractId: string, suggestionId: string){
            return withTransaction(async (conn) => {
                //  lock de la sugerencia
+               
                const sug = await this.suggestions.findByIdForUpdate(suggestionId, conn);
                if(!sug || sug.contractId !== contractId) throw new Error("Sugerencia no valida");
                if(sug.status === "APPLIED"){
@@ -132,8 +135,10 @@ export class ContractService {
 
                //Recalcular los totales
                const {subtotal} = await this.events.sumSubtotals(sug.eventId, conn);
+               console.log(`subtotal recalculado ${subtotal}`)
                const tax = +(subtotal * sug.payload.vatRate).toFixed(2);
                const total = +(subtotal + tax).toFixed(2);
+               console.log(`total recalcuolado ${total}`)
                await this.contracts.updateTotals(sug.contractId, subtotal, tax, total, conn)
                
                //se aplica

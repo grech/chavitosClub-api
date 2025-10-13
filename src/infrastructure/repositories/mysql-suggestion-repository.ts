@@ -33,19 +33,20 @@ export class MySqlContractSuggestionRepository implements IContractSuggestionRep
      }
 
      private map(r: any): ContractSuggestion {
-    return {
-      id: r.id,
-      contractId: r.contract_id,
-      eventId: r.event_id,
-      savings: Number(r.savings_mxn),
-      status: r.status,
-      createdAt: new Date(r.created_at),
-      expiresAt: new Date(r.expires_at),
-      appliedAt: r.applied_at ? new Date(r.applied_at) : undefined,
-      payload: typeof r.payload_json === "string"
-        ? JSON.parse(r.payload_json)
-        : r.payload_json
-    };
+     return {
+          id: r.id,
+          contractId: r.contract_id,
+          eventId: r.event_id,
+          savings: Number(r.savings_mxn),
+          status: r.status,
+          hours: r.hours,
+          createdAt: new Date(r.created_at),
+          expiresAt: new Date(r.expires_at),
+          appliedAt: r.applied_at ? new Date(r.applied_at) : undefined,
+          payload: typeof r.payload_json === "string"
+          ? JSON.parse(r.payload_json)
+          : r.payload_json
+     };
   }
 
 }

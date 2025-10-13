@@ -25,7 +25,7 @@ export class MySqlContractRepository implements IContractRepository {
 
           //contract
 
-          await execQuery({qry: contractQuerys.create, values:[contract.id, contract.event.id, contract.tax, contract.total], conn})
+          await execQuery({qry: contractQuerys.create, values:[contract.id, contract.event.id, contract.tax,contract.subtotal, contract.total], conn})
      }
 
      async getById(id: string, conn?: PoolConnection) {
@@ -36,7 +36,7 @@ export class MySqlContractRepository implements IContractRepository {
      }
 
      async updateTotals(contractId: string, subtotal: number, tax: number, total: number, conn: PoolConnection) {
-          await execQuery({qry: contractQuerys.updateTotals, values: [subtotal, tax, total, contractId], conn})
+          await execQuery({qry: contractQuerys.updateTotals, values: [tax,subtotal, total, contractId], conn})
      }
 
 }
