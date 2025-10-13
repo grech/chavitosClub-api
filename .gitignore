@@ -1,3 +1,16 @@
-node_modules/
-.vscode/
+# Dependencias
+/node_modules
+
+# Compilación TypeScript
+/dist
+/build
+*.js
+*.map
+
+# Archivos de Entorno y Log
 .env
+npm-debug.log
+yarn-error.log*
+
+# IDE y Configuración Local
+.vscode/
